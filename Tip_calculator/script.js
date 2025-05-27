@@ -6,25 +6,24 @@ let perPerson = document.querySelector('.per-person-box .result-value');
 let resetBtn = document.querySelector('.reset-btn');
 let customTip = document.getElementById('custom-tip');
 let tipButtons = document.querySelectorAll('.tip-btn');
-
-//increase or decrease the number of people
 let increaseBtn = document.querySelector('.increase');
 let decreaseBtn = document.querySelector('.decrease');
 
 let selectedTip = 15; // default tip percentage
 
-//increase the number of people
+// Increase the number of people
 increaseBtn.addEventListener('click', () => {
-    peopleCount.value++;
+    peopleCount.value = parseInt(peopleCount.value) + 1;
     calculateTip();
 });
 
-//decrease the number of people
+// Decrease the number of people
 decreaseBtn.addEventListener('click', () => {
-    peopleCount.value--;
-    if (peopleCount.value < 1) {
-        alert("the number of people cannot be less than 1");
-        peopleCount.value = 1;
+    let currentCount = parseInt(peopleCount.value);
+    if (currentCount > 1) {
+        peopleCount.value = currentCount - 1;
+    } else {
+        alert("The number of people cannot be less than 1");
     }
     calculateTip();
 });
@@ -32,13 +31,9 @@ decreaseBtn.addEventListener('click', () => {
 // Handle tip button clicks
 tipButtons.forEach(button => {
     button.addEventListener('click', () => {
-        // Remove active class from all buttons
         tipButtons.forEach(btn => btn.classList.remove('active'));
-        // Add active class to clicked button
         button.classList.add('active');
-        // Update selected tip
         selectedTip = parseFloat(button.dataset.tip);
-        // Clear custom tip input
         customTip.value = '';
         calculateTip();
     });
@@ -46,14 +41,12 @@ tipButtons.forEach(button => {
 
 // Handle custom tip input
 customTip.addEventListener('input', () => {
-    // Remove active class from all buttons
     tipButtons.forEach(btn => btn.classList.remove('active'));
-    // Update selected tip
-    selectedTip = parseFloat(customTip.value) || 0;
+    selectedTip = parseFloat(customTip.value.replace(/[^\d.]/g, '')) || 0;
     calculateTip();
 });
 
-//reseting the calculator
+// Reset the calculator
 resetBtn.addEventListener('click', () => {
     billAmount.value = '';
     peopleCount.value = '1';
@@ -65,18 +58,23 @@ resetBtn.addEventListener('click', () => {
     perPerson.textContent = '$0.00';
 });
 
-//calculating the tip and total bill
-billAmount.addEventListener('input', () => {
-    calculateTip();
-});
-
-peopleCount.addEventListener('input', () => {
-    calculateTip();
-});
-
+// Calculate tip and total bill
 function calculateTip() {
     const bill = parseFloat(billAmount.value) || 0;
-    const people = parseInt(peopleCount.value) || 1;
+    let people = parseInt(peopleCount.value);
+
+    if (!billAmount.value || isNaN(bill) || bill <= 0) {
+        tipAmount.textContent = '$0.00';
+        totalBill.textContent = '$0.00';
+        perPerson.textContent = '$0.00';
+        return;
+    }
+
+    if (isNaN(people) || people < 1) {
+        people = 1;
+        peopleCount.value = 1;
+    }
+
     const tip = bill * (selectedTip / 100);
     const total = bill + tip;
     const perPersonAmount = total / people;
@@ -85,3 +83,12 @@ function calculateTip() {
     totalBill.textContent = `$${total.toFixed(2)}`;
     perPerson.textContent = `$${perPersonAmount.toFixed(2)}`;
 }
+
+// Trigger calculation on input
+billAmount.addEventListener('input', calculateTip);
+peopleCount.addEventListener('input', () => {
+    if (parseInt(peopleCount.value) < 1 || isNaN(peopleCount.value)) {
+        peopleCount.value = 1;
+    }
+    calculateTip();
+});
