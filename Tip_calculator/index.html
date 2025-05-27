@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <i class="fas fa-calculator"></i>
+            <h1>Tip Calculator</h1>
+        </div>
+
+        <div class="sub_text">
+            <p class="sub_text_p">Calculate your tip and total bill with ease.</p>
+        </div>
+
+        <div class="form-group">
+            <label for="bill-amount">$ Bill Amount</label>
+            <input type="number" id="bill-amount" placeholder="Enter bill amount" min="0" step="0.01">
+        </div>
+
+        <div class="form-group">
+            <label>Select Tip %</label>
+            <div class="tip-buttons">
+                <button type="button" class="tip-btn" data-tip="15">15%</button>
+                <button type="button" class="tip-btn" data-tip="18">18%</button>
+                <button type="button" class="tip-btn" data-tip="20">20%</button>
+                <button type="button" class="tip-btn" data-tip="22">22%</button>
+                <button type="button" class="tip-btn" data-tip="25">25%</button>
+            </div>
+            <div class="custom-tip">
+                <input type="number" id="custom-tip" placeholder="Custom %" min="0" step="0.1">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="people-count">
+                <i class="fas fa-user"></i> Split between
+            </label>
+            <div class="number-input">
+                <button type="button" class="decrease">-</button>
+                <input type="number" id="people-count" value="1" min="1" step="1">
+                <button type="button" class="increase">+</button>
+            </div>
+        </div>
+
+        <div class="results">
+            <div class="result-box tip-amount">
+                <div class="result-label">Tip Amount</div>
+                <div class="result-value">$0.00</div>
+            </div>
+            <div class="result-box total-bill">
+                <div class="result-label">Total Bill</div>
+                <div class="result-value">$0.00</div>
+            </div>
+        </div>
+
+        <div class="per-person-box">
+            <div class="result-label">
+                <i class="fas fa-users"></i> Per Person
+            </div>
+            <div class="result-value">$0.00</div>
+        </div>
+
+        <button class="reset-btn">
+            <i class="fas fa-redo"></i> Reset Calculator
+        </button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
